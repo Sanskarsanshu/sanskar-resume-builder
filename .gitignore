@@ -1,0 +1,6 @@
+output/*.pdf
+output/*.aux
+output/*.log
+output/*.out
+__pycache__/
+*.pyc
