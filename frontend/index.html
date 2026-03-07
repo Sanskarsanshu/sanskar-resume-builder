@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaTeX Resume Builder</title>
+    <meta name="description" content="Generate a professional LaTeX resume PDF by filling out a simple web form.">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Compiling your LaTeX resume…</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <h1>📄 LaTeX Resume Builder</h1>
+            <p class="tagline">Fill the form. Get a beautifully typeset PDF resume.</p>
+        </div>
+    </header>
+
+    <main>
+        <form id="resumeForm" novalidate>
+
+            <!-- ============ PERSONAL INFO ============ -->
+            <section class="card" id="personalSection">
+                <h2><span class="icon">👤</span> Personal Information</h2>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="name">Full Name <span class="req">*</span></label>
+                        <input type="text" id="name" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="field">
+                        <label for="email">Email <span class="req">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone <span class="req">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8901" required>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location <span class="req">*</span></label>
+                        <input type="text" id="location" name="location" placeholder="New York, NY" required>
+                    </div>
+                    <div class="field">
+                        <label for="linkedin">LinkedIn URL</label>
+                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/johndoe">
+                    </div>
+                    <div class="field">
+                        <label for="github">GitHub URL</label>
+                        <input type="url" id="github" name="github" placeholder="https://github.com/johndoe">
+                    </div>
+                    <div class="field">
+                        <label for="leetcode">LeetCode URL</label>
+                        <input type="url" id="leetcode" name="leetcode" placeholder="https://leetcode.com/johndoe">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ EDUCATION ============ -->
+            <section class="card" id="educationSection">
+                <h2><span class="icon">🎓</span> Education</h2>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="college">College / University <span class="req">*</span></label>
+                        <input type="text" id="college" name="college" placeholder="MIT" required>
+                    </div>
+                    <div class="field">
+                        <label for="college_location">College Location</label>
+                        <input type="text" id="college_location" name="college_location" placeholder="Cambridge, MA">
+                    </div>
+                    <div class="field">
+                        <label for="degree">Degree <span class="req">*</span></label>
+                        <input type="text" id="degree" name="degree" placeholder="B.Tech Computer Science" required>
+                    </div>
+                    <div class="field">
+                        <label for="minor">Minor</label>
+                        <input type="text" id="minor" name="minor" placeholder="Mathematics">
+                    </div>
+                    <div class="field">
+                        <label for="cgpa">CGPA</label>
+                        <input type="text" id="cgpa" name="cgpa" placeholder="3.8 / 4.0">
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <input type="text" id="year" name="year" placeholder="2021 – 2025">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ TECHNICAL SKILLS ============ -->
+            <section class="card" id="skillsSection">
+                <h2><span class="icon">💻</span> Technical Skills</h2>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="programming">Programming</label>
+                        <input type="text" id="programming" name="programming" placeholder="Python, C++, Java, JavaScript">
+                    </div>
+                    <div class="field">
+                        <label for="computer_vision">Computer Vision</label>
+                        <input type="text" id="computer_vision" name="computer_vision" placeholder="OpenCV, YOLO, MediaPipe">
+                    </div>
+                    <div class="field">
+                        <label for="deep_learning">Deep Learning</label>
+                        <input type="text" id="deep_learning" name="deep_learning" placeholder="TensorFlow, PyTorch, Keras">
+                    </div>
+                    <div class="field">
+                        <label for="deployment">Deployment</label>
+                        <input type="text" id="deployment" name="deployment" placeholder="Docker, AWS, GCP, Heroku">
+                    </div>
+                    <div class="field">
+                        <label for="tools">Tools</label>
+                        <input type="text" id="tools" name="tools" placeholder="Git, VS Code, Jupyter, Postman">
+                    </div>
+                    <div class="field">
+                        <label for="web_technologies">Web Technologies</label>
+                        <input type="text" id="web_technologies" name="web_technologies" placeholder="HTML, CSS, React, Node.js, Flask">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ ACHIEVEMENTS ============ -->
+            <section class="card" id="achievementsSection">
+                <h2><span class="icon">🏆</span> Achievements</h2>
+                <div id="achievementsList">
+                    <div class="dynamic-item achievement-item">
+                        <input type="text" name="achievement" placeholder="Describe an achievement…">
+                        <button type="button" class="btn-remove" onclick="removeItem(this)" title="Remove">✕</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" id="addAchievement">+ Add Achievement</button>
+            </section>
+
+            <!-- ============ PROJECTS ============ -->
+            <section class="card" id="projectsSection">
+                <h2><span class="icon">🚀</span> Projects</h2>
+                <div id="projectsList">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <span class="project-label">Project 1</span>
+                            <button type="button" class="btn-remove" onclick="removeProject(this)" title="Remove project">✕</button>
+                        </div>
+                        <div class="grid-3">
+                            <div class="field">
+                                <label>Project Name <span class="req">*</span></label>
+                                <input type="text" name="project_name" placeholder="AI Chatbot">
+                            </div>
+                            <div class="field">
+                                <label>Tech Stack</label>
+                                <input type="text" name="project_tech" placeholder="Python, Flask, GPT-4">
+                            </div>
+                            <div class="field">
+                                <label>Year</label>
+                                <input type="text" name="project_year" placeholder="2024">
+                            </div>
+                        </div>
+                        <div class="bullets-container">
+                            <label>Description Bullets</label>
+                            <div class="bullets-list">
+                                <div class="bullet-item">
+                                    <input type="text" name="project_bullet" placeholder="Describe what you built or achieved…">
+                                    <button type="button" class="btn-remove btn-sm" onclick="removeBullet(this)" title="Remove">✕</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-add btn-add-sm" onclick="addBullet(this)">+ Add Bullet</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" id="addProject">+ Add Project</button>
+            </section>
+
+            <!-- ============ EXPERIENCE ============ -->
+            <section class="card" id="experienceSection">
+                <h2><span class="icon">💼</span> Experience</h2>
+                <div id="experienceList">
+                    <div class="project-card experience-card">
+                        <div class="project-header">
+                            <span class="project-label">Experience 1</span>
+                            <button type="button" class="btn-remove" onclick="removeExperience(this)" title="Remove">✕</button>
+                        </div>
+                        <div class="grid-2">
+                            <div class="field">
+                                <label>Company <span class="req">*</span></label>
+                                <input type="text" name="exp_company" placeholder="Google">
+                            </div>
+                            <div class="field">
+                                <label>Location</label>
+                                <input type="text" name="exp_location" placeholder="Mountain View, CA">
+                            </div>
+                            <div class="field">
+                                <label>Role</label>
+                                <input type="text" name="exp_role" placeholder="Software Engineer Intern">
+                            </div>
+                            <div class="field">
+                                <label>Year</label>
+                                <input type="text" name="exp_year" placeholder="Jun 2024 – Aug 2024">
+                            </div>
+                        </div>
+                        <div class="bullets-container">
+                            <label>Description Bullets</label>
+                            <div class="bullets-list">
+                                <div class="bullet-item">
+                                    <input type="text" name="exp_bullet" placeholder="Describe your responsibilities…">
+                                    <button type="button" class="btn-remove btn-sm" onclick="removeBullet(this)" title="Remove">✕</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-add btn-add-sm" onclick="addBullet(this)">+ Add Bullet</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" id="addExperience">+ Add Experience</button>
+            </section>
+
+            <!-- ============ CERTIFICATIONS ============ -->
+            <section class="card" id="certificationsSection">
+                <h2><span class="icon">📜</span> Certifications</h2>
+                <div id="certificationsList">
+                    <div class="dynamic-item certification-item">
+                        <input type="text" name="certification" placeholder="AWS Certified Cloud Practitioner">
+                        <button type="button" class="btn-remove" onclick="removeItem(this)" title="Remove">✕</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" id="addCertification">+ Add Certification</button>
+            </section>
+
+            <!-- ============ LANGUAGES ============ -->
+            <section class="card" id="languagesSection">
+                <h2><span class="icon">🌐</span> Languages</h2>
+                <div class="field">
+                    <label for="languages">Languages</label>
+                    <input type="text" id="languages" name="languages" placeholder="English, Hindi, Spanish">
+                </div>
+            </section>
+
+            <!-- ============ SUBMIT ============ -->
+            <div class="submit-section">
+                <button type="submit" class="btn-generate" id="generateBtn">
+                    <span class="btn-text">🚀 Generate Resume PDF</span>
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <footer>
+        <p>Built with ❤️ using Flask &amp; LaTeX</p>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

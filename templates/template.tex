@@ -1,0 +1,160 @@
+\documentclass[a4paper,10pt]{article}
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[left=0.5in, right=0.5in, top=0.5in, bottom=0.5in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{tabularx}
+
+%----------------------------------------------------------------------------------------
+%	COLORS
+%----------------------------------------------------------------------------------------
+\definecolor{resumeBlue}{RGB}{26, 60, 120}
+
+%----------------------------------------------------------------------------------------
+%	FORMATTING
+%----------------------------------------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=resumeBlue,
+    filecolor=magenta,
+    urlcolor=resumeBlue,
+}
+
+\titleformat{\section}{
+  \vspace{-5pt}\color{resumeBlue}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{resumeBlue}\titlerule \vspace{-5pt}]
+
+\setlist[itemize]{leftmargin=*}
+
+\newcommand{\resumeItem}[1]{
+  \item\small{{#1 \vspace{-2pt}}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+%----------HEADER----------
+\begin{center}
+    \textbf{\Huge \scshape \color{resumeBlue} \VAR{name}} \\ \vspace{3pt}
+    \small
+    \faMapMarker* \VAR{location} \hspace{5pt} $|$ \hspace{5pt}
+    \faEnvelope \hspace{2pt} \href{mailto:\VAR{email}}{\VAR{email}} \hspace{5pt} $|$ \hspace{5pt}
+    \faPhone \hspace{2pt} \VAR{phone} \\ \vspace{3pt}
+
+    \BLOCK{if linkedin}\href{\VAR{linkedin}}{\color{resumeBlue}\faLinkedin \hspace{2pt} LinkedIn} \hspace{5pt} $|$ \hspace{5pt}\BLOCK{endif}
+    \BLOCK{if github}\href{\VAR{github}}{\color{resumeBlue}\faGithub \hspace{2pt} GitHub} \hspace{5pt} $|$ \hspace{5pt}\BLOCK{endif}
+    \BLOCK{if leetcode}\href{\VAR{leetcode}}{\color{resumeBlue}\faCode \hspace{2pt} LeetCode}\BLOCK{endif}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\resumeSubheading
+{\VAR{college}}{\VAR{college_location}}
+{\VAR{degree}\BLOCK{if minor}, Minor in \VAR{minor}\BLOCK{endif}}{\VAR{year}}
+\small{\item{\textbf{CGPA}: \VAR{cgpa} }}
+\end{itemize}
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\small{\item{
+\BLOCK{if programming}\textbf{Programming}: \VAR{programming} \\\BLOCK{endif}
+\BLOCK{if computer_vision}\textbf{Computer Vision}: \VAR{computer_vision} \\\BLOCK{endif}
+\BLOCK{if deep_learning}\textbf{Deep Learning}: \VAR{deep_learning} \\\BLOCK{endif}
+\BLOCK{if deployment}\textbf{Deployment}: \VAR{deployment} \\\BLOCK{endif}
+\BLOCK{if tools}\textbf{Tools}: \VAR{tools} \\\BLOCK{endif}
+\BLOCK{if web_technologies}\textbf{Web Technologies}: \VAR{web_technologies}\BLOCK{endif}
+}}
+\end{itemize}
+
+%-----------ACHIEVEMENTS-----------
+\BLOCK{if achievements}
+\section{Achievements}
+\begin{itemize}[leftmargin=0.15in,label=$\bullet$]
+\small{
+\BLOCK{for a in achievements}
+\item \VAR{a}
+\BLOCK{endfor}
+}
+\end{itemize}
+\BLOCK{endif}
+
+%-----------PROJECTS-----------
+\BLOCK{if projects}
+\section{Projects}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\BLOCK{for p in projects}
+\item \textbf{\VAR{p.name}} $|$ \emph{\VAR{p.tech_stack}} \hfill \VAR{p.year}
+\begin{itemize}
+\BLOCK{for bullet in p.bullets}
+\item \small{\VAR{bullet}}
+\BLOCK{endfor}
+\end{itemize}
+\BLOCK{endfor}
+\end{itemize}
+\BLOCK{endif}
+
+%-----------EXPERIENCE-----------
+\BLOCK{if experiences}
+\section{Experience}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\BLOCK{for exp in experiences}
+\resumeSubheading
+{\VAR{exp.company}}{\VAR{exp.location}}
+{\VAR{exp.role}}{\VAR{exp.year}}
+\begin{itemize}
+\BLOCK{for bullet in exp.bullets}
+\item \small{\VAR{bullet}}
+\BLOCK{endfor}
+\end{itemize}
+\BLOCK{endfor}
+\end{itemize}
+\BLOCK{endif}
+
+%-----------CERTIFICATIONS-----------
+\BLOCK{if certifications}
+\section{Certifications}
+\begin{itemize}[leftmargin=0.15in,label=$\bullet$]
+\small{
+\BLOCK{for c in certifications}
+\item \VAR{c}
+\BLOCK{endfor}
+}
+\end{itemize}
+\BLOCK{endif}
+
+%-----------LANGUAGES-----------
+\BLOCK{if languages}
+\section{Languages}
+\begin{itemize}[leftmargin=0.15in,label=$\bullet$]
+\small{
+\item \VAR{languages}
+}
+\end{itemize}
+\BLOCK{endif}
+
+\end{document}
