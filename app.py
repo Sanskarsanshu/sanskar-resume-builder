@@ -2,9 +2,11 @@ import os
 import subprocess
 import shutil
 from flask import Flask, request, send_file, jsonify, send_from_directory, Response
+from flask_cors import CORS
 from jinja2 import Environment, FileSystemLoader
 
 app = Flask(__name__, static_folder='static')
+CORS(app)  # Allow Vercel frontend to call the API
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
@@ -13,15 +15,15 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Full path to pdflatex (MiKTeX installation)
-PDFLATEX_PATH = os.path.join(
+# Path to pdflatex. Default to system PATH (works in Docker/Linux via apt-get).
+PDFLATEX_PATH = 'pdflatex'
+# Local Windows fallback check for MiKTeX.
+windows_miktex_path = os.path.join(
     os.path.expanduser('~'),
     'AppData', 'Local', 'Programs', 'MiKTeX', 'miktex', 'bin', 'x64', 'pdflatex.exe'
 )
-
-# Fallback: if full path doesn't exist, try 'pdflatex' from PATH
-if not os.path.exists(PDFLATEX_PATH):
-    PDFLATEX_PATH = 'pdflatex'
+if os.path.exists(windows_miktex_path) and os.name == 'nt':
+    PDFLATEX_PATH = windows_miktex_path
 
 
 def escape_latex(value):
@@ -84,8 +86,15 @@ def generate():
         # Escape all LaTeX special characters
         safe_data = escape_data(data)
 
-        # Load and render LaTeX template
-        template = latex_env.get_template('template.tex')
+        # Determine which template to use (default to 'template' for backward compatibility)
+        template_id = data.get('template_id', 'template')
+        template_filename = f"{template_id}.tex"
+
+        try:
+            # Load and render LaTeX template
+            template = latex_env.get_template(template_filename)
+        except Exception:
+            return jsonify({'error': f"Template '{template_id}' not found in templates directory"}), 400
         rendered = template.render(**safe_data)
 
         # Write rendered LaTeX to output directory
