@@ -5,7 +5,7 @@ from flask import Flask, request, send_file, jsonify, send_from_directory, Respo
 from flask_cors import CORS
 from jinja2 import Environment, FileSystemLoader
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
 CORS(app)  # Allow Vercel frontend to call the API
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -74,6 +74,10 @@ latex_env = Environment(
 @app.route('/')
 def index():
     return send_from_directory(FRONTEND_DIR, 'index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(FRONTEND_DIR, filename)
 
 
 @app.route('/generate', methods=['POST'])
