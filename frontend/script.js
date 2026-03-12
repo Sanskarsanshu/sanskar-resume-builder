@@ -13,6 +13,15 @@ const addCertificationBtn = document.getElementById('addCertification');
 let projectCounter = 1;
 let experienceCounter = 1;
 
+// ========== TEMPLATE SELECTION ==========
+const templateCards = document.querySelectorAll('.template-card');
+templateCards.forEach(card => {
+    card.addEventListener('click', () => {
+        templateCards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+    });
+});
+
 // ========== DYNAMIC ACHIEVEMENTS ==========
 addAchievementBtn.addEventListener('click', () => {
     const item = document.createElement('div');
@@ -303,8 +312,9 @@ form.addEventListener('submit', async (e) => {
 
     const data = collectFormData();
     
-    // Add default template_id to payload
-    data.template_id = 'template';
+    // Get selected template_id
+    const selectedTemplate = document.querySelector('input[name="template_id"]:checked');
+    data.template_id = selectedTemplate ? selectedTemplate.value : 'template';
 
     // Show loading
     loadingOverlay.classList.remove('hidden');

@@ -29,6 +29,34 @@
     <main>
         <form id="resumeForm" novalidate>
 
+            <!-- ============ TEMPLATES ============ -->
+            <section class="card" id="templateSection">
+                <h2><span class="icon">🎨</span> Choose a Template</h2>
+                <div class="template-gallery">
+                    <label class="template-card selected" for="tpl_classic">
+                        <input type="radio" name="template_id" id="tpl_classic" value="template" checked class="hidden-radio">
+                        <div class="template-image-container">
+                            <div class="template-placeholder">Classic</div>
+                        </div>
+                        <div class="template-info">
+                            <h3>Classic Professional</h3>
+                            <p>Clean and traditional. Perfect for corporate roles.</p>
+                        </div>
+                    </label>
+
+                    <label class="template-card" for="tpl_modern">
+                        <input type="radio" name="template_id" id="tpl_modern" value="templet2" class="hidden-radio">
+                        <div class="template-image-container">
+                            <div class="template-placeholder modern">Modern</div>
+                        </div>
+                        <div class="template-info">
+                            <h3>Modern Two-Column</h3>
+                            <p>Sleek design with a split layout for creative roles.</p>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
             <!-- ============ PERSONAL INFO ============ -->
             <section class="card" id="personalSection">
                 <h2><span class="icon">👤</span> Personal Information</h2>
