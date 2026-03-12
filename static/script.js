@@ -293,9 +293,8 @@ function collectFormData() {
 }
 
 // ========== FORM SUBMISSION ==========
-// TODO: Replace this URL with your live Render/Railway backend URL once deployed.
-// Example: const BACKEND_URL = 'https://sanskar-resume-backend.onrender.com';
-const BACKEND_URL = 'http://localhost:5000'; // Keep localhost for testing right now
+// Render backend URL
+const BACKEND_URL = 'https://sanskar-resume-builder.onrender.com';
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
