@@ -293,18 +293,25 @@ function collectFormData() {
 }
 
 // ========== FORM SUBMISSION ==========
+// TODO: Replace this URL with your live Render/Railway backend URL once deployed.
+// Example: const BACKEND_URL = 'https://sanskar-resume-backend.onrender.com';
+const BACKEND_URL = 'http://localhost:5000'; // Keep localhost for testing right now
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     const data = collectFormData();
+    
+    // Add default template_id to payload
+    data.template_id = 'template';
 
     // Show loading
     loadingOverlay.classList.remove('hidden');
 
     try {
-        const response = await fetch('/generate', {
+        const response = await fetch(`${BACKEND_URL}/generate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
